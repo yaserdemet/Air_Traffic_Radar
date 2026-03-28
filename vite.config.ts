@@ -11,4 +11,18 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-})
+  server: {
+    proxy: {
+      "/api-proxy": {
+        target: "https://opensky-network.org/api",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api-proxy/, ""),
+      },
+      "/auth-proxy": {
+        target: "https://auth.opensky-network.org",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/auth-proxy/, ""),
+      },
+    },
+  },
+});
