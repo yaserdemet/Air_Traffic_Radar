@@ -7,6 +7,8 @@ import {
   LiveTrafficPage,
   EmergencyPage,
   StatisticsPage,
+  FlightMapPage,
+  Form91Page,
 } from "./elements";
 
 export const router = createBrowserRouter([
@@ -38,6 +40,14 @@ export const router = createBrowserRouter([
       {
         path: "statistics",
         element: <StatisticsPage />,
+      },
+      {
+        path: "flight-map",
+        element: <FlightMapPage />,
+      },
+      {
+        path: "form-91",
+        element: <Form91Page />,
       },
     ],
   },

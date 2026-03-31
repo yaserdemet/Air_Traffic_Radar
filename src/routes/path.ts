@@ -18,6 +18,7 @@ export const PATH_DASHBOARD = {
   history: path(ROOTS_DASHBOARD, '/history'),
   starred: path(ROOTS_DASHBOARD, '/starred'),
   settings: path(ROOTS_DASHBOARD, '/settings'),
+  flightMap: path(ROOTS_DASHBOARD, '/flight-map'),
 //   one: path(ROOTS_DASHBOARD, '/one'),
 //   two: path(ROOTS_DASHBOARD, '/two'),
 //   three: path(ROOTS_DASHBOARD, '/three'),

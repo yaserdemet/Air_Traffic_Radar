@@ -7,11 +7,11 @@ import {
   Bot,
   Command,
   Frame,
-  BookOpenText,
   Map,
   PieChart,
   Settings2,
   SquareTerminal,
+  TowerControl,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -35,8 +35,8 @@ const data = {
   },
   teams: [
     {
-      name: "Q10Q Inc.",
-      logo: BookOpenText,
+      name: "ATC SCAN",
+      logo: TowerControl,
       plan: "Learning",
       color : "#3e9392"
     },
@@ -70,13 +70,21 @@ const data = {
           title: "Radar İstatistikleri",
           url: "/statistics",
         },
+         {
+          title: "Uçuş Haritası",
+          url: "/flight-map",
+        },
       ],
     },
     {
-      title: "Analiz & Araçlar",
+      title: "Uçuş Formları",
       url: "#",
       icon: Bot,
       items: [
+        {
+          title: "Form 91",
+          url: "/form-91",
+        },
         {
           title: "Genesis",
           url: "#",

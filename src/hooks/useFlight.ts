@@ -47,8 +47,22 @@ export interface OpenSkyResponse {
 }
 
 export const useFlight = <TData = OpenSkyResponse>(
-  options?: Partial<UseQueryOptions<OpenSkyResponse, Error, TData>>
+  arg1?: number | (Partial<UseQueryOptions<OpenSkyResponse, Error, TData>> & { refetchInterval?: number }),
+  arg2?: Partial<UseQueryOptions<OpenSkyResponse, Error, TData>>
 ) => {
+  let refetchInterval = 30000;
+  let options: Partial<UseQueryOptions<OpenSkyResponse, Error, TData>> = {};
+
+  if (typeof arg1 === "number") {
+    refetchInterval = arg1;
+    options = arg2 || {};
+  } else if (typeof arg1 === "object" && arg1 !== null) {
+    options = arg1;
+    if (typeof (arg1 as any).refetchInterval === "number") {
+      refetchInterval = (arg1 as any).refetchInterval;
+    }
+  }
+
   return useQuery({
     queryKey: ["getFlights"],
     queryFn: async () => {
@@ -63,7 +77,9 @@ export const useFlight = <TData = OpenSkyResponse>(
         throw error;
       }
     },
-    staleTime: 60000,
+    refetchInterval: refetchInterval,
+    staleTime: refetchInterval,
     ...options
   });
 };
+
