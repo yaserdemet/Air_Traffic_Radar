@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,17 +21,17 @@ import {
 } from "@/components/ui/select";
 import { useForm, Controller } from "react-hook-form";
 import type { Flight } from "./data";
+import { useConsumeFlightContext } from "@/context/FlightContext";
 
 interface AddNewFlightProps {
-  flights: Flight[];
-  setFlights: React.Dispatch<React.SetStateAction<Flight[]>>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 type FlightFormData = Omit<Flight, "inAir"> & { inAir: string };
 
-const AddNewFlight = ({ flights, setFlights, open, onOpenChange }: AddNewFlightProps) => {
+const AddNewFlight = ({ open, onOpenChange }: AddNewFlightProps) => {
+  const { data: flights, setData: setFlights } = useConsumeFlightContext();
   const {
     register,
     handleSubmit,
@@ -53,7 +52,7 @@ const AddNewFlight = ({ flights, setFlights, open, onOpenChange }: AddNewFlightP
   };
 
   return (
-    <div className="m-4">
+    <div>
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
           <Button className="rounded-xl shadow-lg border-none bg-blue-500 hover:bg-blue-600 text-white">

@@ -9,20 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { PaginationControls } from "@/components/ui/PaginationControls";
 import { 
-  ChevronLeft, 
-  ChevronRight, 
-  ChevronFirst, 
-  ChevronLast, 
   Search, 
   History, 
   PlaneTakeoff, 
@@ -105,8 +94,8 @@ export default function HistoryPage() {
     setCurrentPage(1);
   };
 
-  const handleItemsPerPageChange = (value: string) => {
-    setItemsPerPage(Number(value));
+  const handleItemsPerPageChange = (value: number) => {
+    setItemsPerPage(value);
     setCurrentPage(1);
   };
 
@@ -283,48 +272,14 @@ export default function HistoryPage() {
             )}
           </div>
           
-          <div className="px-6 py-4 bg-slate-50/30 border-t border-slate-100/50 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground/60">
-              <div className="flex items-center gap-2">
-                <span>Satır:</span>
-                <Select value={String(itemsPerPage)} onValueChange={handleItemsPerPageChange}>
-                  <SelectTrigger className="h-8 w-18 rounded-lg border border-slate-200/50 bg-card px-2 py-1 text-xs focus:ring-1 focus:ring-blue-400/50 shadow-sm font-semibold text-foreground/70">
-                    <SelectValue placeholder={itemsPerPage} />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-slate-200/50">
-                    {[10, 20, 50, 100].map(n => (
-                      <SelectItem key={n} value={String(n)} className="text-xs font-medium rounded-lg cursor-pointer">
-                        {n}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <span className="hidden sm:inline italic text-[10px] tracking-wide opacity-80">
-                TOPLAM {totalItems.toLocaleString()} KAYIT
-              </span>
-            </div>
-            
-            <div className="flex items-center gap-1.5">
-              <Button variant="outline" size="icon" className="h-9 w-9 rounded-xl border-slate-200/50 shadow-sm" onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
-                <ChevronFirst className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="h-9 w-9 rounded-xl border-slate-200/50 shadow-sm" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <div className="px-3 min-w-25 text-center">
-                <span className="text-xs font-semibold text-blue-500/70 uppercase tracking-[0.2em]">
-                  {currentPage} / {totalPages}
-                </span>
-              </div>
-              <Button variant="outline" size="icon" className="h-9 w-9 rounded-xl border-slate-200/50 shadow-sm" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages || totalPages === 0}>
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="h-9 w-9 rounded-xl border-slate-200/50 shadow-sm" onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages || totalPages === 0}>
-                <ChevronLast className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
+          <PaginationControls
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            onItemsPerPageChange={handleItemsPerPageChange}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+            className="px-6 py-4 bg-slate-50/30 border-t border-slate-100/50 justify-between"
+          />
         </div>
       )}
     </div>

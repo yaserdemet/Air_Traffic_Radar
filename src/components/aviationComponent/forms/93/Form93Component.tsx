@@ -1,6 +1,5 @@
 import React from "react";
-import { PlaneTakeoff, PlaneLanding, Pencil } from "lucide-react";
-
+import { PlaneTakeoff, PlaneLanding } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -9,24 +8,42 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { dataFlight } from "./data";
 import AddNewFlight from "./AddNewFlight";
-import { Button } from "@/components/ui/button";
 import { UpdateFlight } from "./UpdateFligh";
+import { useConsumeFlightContext } from "@/context/FlightContext";
+import { PaginationControls } from "@/components/ui/PaginationControls";
 const Form93Component = () => {
-  const [flights, setFlights] = React.useState(dataFlight);
+  const { data: flights } = useConsumeFlightContext();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(2);
+  const totalPages = Math.ceil(flights.length / rowsPerPage);
+  const paginatedFlights = flights.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
+ 
   return (
     <>
       <div className="p-4 sm:p-8 space-y-8">
         <>
           <div className="border border-slate-100/50 bg-card/40 backdrop-blur-md shadow-sm rounded-2xl overflow-hidden transition-all">
-            <AddNewFlight
-              flights={flights}
-              setFlights={setFlights}
-              open={isModalOpen}
-              onOpenChange={setIsModalOpen}
-            />
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border-b border-slate-100/50 bg-slate-50/20">
+              <AddNewFlight
+                open={isModalOpen}
+                onOpenChange={setIsModalOpen}
+              />
+              
+              <PaginationControls
+                totalItems={flights.length}
+                itemsPerPage={rowsPerPage}
+                onItemsPerPageChange={(value) => setRowsPerPage(value)}
+                currentPage={currentPage}
+                onPageChange={(page) => setCurrentPage(page)}
+                rowsPerPageOptions={[2, 5, 10, 20, 50]}
+                showTotalText={false}
+              />
+            </div>
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader className="bg-muted/10 border-b border-slate-100/50">
@@ -63,12 +80,15 @@ const Form93Component = () => {
                 <TableBody>
                   {flights.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={9} className="text-center font-bold text-gray-700">
+                      <TableCell
+                        colSpan={9}
+                        className="text-center font-bold text-gray-700"
+                      >
                         Henüz uçuş eklenmemiş.
                       </TableCell>
                     </TableRow>
                   )}
-                  {flights.map((flight) => (
+                  {paginatedFlights.map((flight) => (
                     <TableRow
                       className="hover:bg-blue-50 hover:cursor-pointer"
                       key={flight.id}
@@ -110,8 +130,6 @@ const Form93Component = () => {
                       </TableCell>
                       <TableCell>
                         <UpdateFlight
-                          flights={flights}
-                          setFlights={setFlights}
                           id={flight.id}
                         />
                       </TableCell>

@@ -7,9 +7,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { PencilIcon, TrashIcon } from "lucide-react";
-import type { Flight } from "./data";
+import { useConsumeFlightContext } from "@/context/FlightContext";
 
-export function UpdateFlight({flights, setFlights, id}: {flights: Flight[], setFlights: React.Dispatch<React.SetStateAction<Flight[]>>, id: number}) {
+export function UpdateFlight({ id }: { id: number }) {
+  const { data: flights, setData: setFlights } = useConsumeFlightContext();
 
     const deleteFlight = (id:number) => {
         const filterFlight = flights.filter((item) => item.id !== id )
