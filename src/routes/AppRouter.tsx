@@ -9,6 +9,8 @@ import {
   StatisticsPage,
   FlightMapPage,
   Form91Page,
+  Form92Page,
+  Form93Page,
 } from "./elements";
 
 export const router = createBrowserRouter([
@@ -48,6 +50,14 @@ export const router = createBrowserRouter([
       {
         path: "form-91",
         element: <Form91Page />,
+      },
+      {
+        path: "form-92",
+        element: <Form92Page />,
+      },
+      {
+        path: "form-93",
+        element: <Form93Page />,
       },
     ],
   },

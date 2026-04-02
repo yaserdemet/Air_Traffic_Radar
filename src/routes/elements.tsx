@@ -18,4 +18,6 @@ export const LiveTrafficPage = Loadable(lazy(() => import('../pages/LiveTraffic'
 export const EmergencyPage = Loadable(lazy(() => import('../pages/EmergencyPage')));
 export const StatisticsPage = Loadable(lazy(() => import('../pages/Charts')));
 export const FlightMapPage = Loadable(lazy(() => import('../pages/FlightMap')));
-export const Form91Page = Loadable(lazy(() => import('../pages/Form93')));
+export const Form91Page = Loadable(lazy(() => import('../pages/Form91')));
+export const Form92Page = Loadable(lazy(() => import('../pages/Form92')));
+export const Form93Page = Loadable(lazy(() => import('../pages/Form93')));

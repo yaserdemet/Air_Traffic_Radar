@@ -1,147 +1,93 @@
-import React from "react";
-import { PlaneTakeoff, PlaneLanding } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import AddNewFlight from "./AddNewFlight";
-import { UpdateFlight } from "./UpdateFligh";
-import { useConsumeFlightContext } from "@/context/FlightContext";
-import { PaginationControls } from "@/components/ui/PaginationControls";
-const Form93Component = () => {
-  const { data: flights } = useConsumeFlightContext();
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const [rowsPerPage, setRowsPerPage] = React.useState(2);
-  const totalPages = Math.ceil(flights.length / rowsPerPage);
-  const paginatedFlights = flights.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
- 
-  return (
-    <>
-      <div className="p-4 sm:p-8 space-y-8">
-        <>
-          <div className="border border-slate-100/50 bg-card/40 backdrop-blur-md shadow-sm rounded-2xl overflow-hidden transition-all">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border-b border-slate-100/50 bg-slate-50/20">
-              <AddNewFlight
-                open={isModalOpen}
-                onOpenChange={setIsModalOpen}
-              />
-              
-              <PaginationControls
-                totalItems={flights.length}
-                itemsPerPage={rowsPerPage}
-                onItemsPerPageChange={(value) => setRowsPerPage(value)}
-                currentPage={currentPage}
-                onPageChange={(page) => setCurrentPage(page)}
-                rowsPerPageOptions={[2, 5, 10, 20, 50]}
-                showTotalText={false}
-              />
-            </div>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader className="bg-muted/10 border-b border-slate-100/50">
-                  <TableRow className="hover:bg-transparent">
-                    <TableHead className="w-35 font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">
-                      Çağrı Kodu
-                    </TableHead>
-                    <TableHead className="min-w-37.5 font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">
-                      Uçak Tipi
-                    </TableHead>
-                    <TableHead className=" font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">
-                      Squawk
-                    </TableHead>
-                    <TableHead className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">
-                      Kalkış
-                    </TableHead>
-                    <TableHead className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">
-                      Varış
-                    </TableHead>
-                    <TableHead className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">
-                      Havada Mı ?
-                    </TableHead>
-                    <TableHead className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">
-                      Uçuş Amacı
-                    </TableHead>
-                    <TableHead className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">
-                      Uçuş Tipi
-                    </TableHead>
-                    <TableHead className="font-semibold text-xs uppercase tracking-wider text-muted-foreground/80">
-                      İşlemler
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {flights.length === 0 && (
-                    <TableRow>
-                      <TableCell
-                        colSpan={9}
-                        className="text-center font-bold text-gray-700"
-                      >
-                        Henüz uçuş eklenmemiş.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                  {paginatedFlights.map((flight) => (
-                    <TableRow
-                      className="hover:bg-blue-50 hover:cursor-pointer"
-                      key={flight.id}
-                    >
-                      <TableCell>{flight.callSign}</TableCell>
-                      <TableCell>{flight.aircraftType}</TableCell>
-                      <TableCell>{flight.squawk}</TableCell>
-                      <TableCell>{flight.departure}</TableCell>
-                      <TableCell>{flight.arrival}</TableCell>
+import { useQuery } from "@tanstack/react-query";
+import { RefreshCw } from "lucide-react";
+import { weatherService } from "./api/getWeather";
+import LoadingPage from "@/pages/LoadingPage";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { WeatherHeader } from "./sub-components/WeatherHeader";
+import { MainWeatherCard } from "./sub-components/MainWeatherCard";
+import { WeatherDetailsSidebar } from "./sub-components/WeatherDetailsSidebar";
 
-                      <TableCell>
-                        {flight.inAir ? (
-                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-50/50 text-blue-500/80 border border-blue-100/50 w-fit">
-                            <PlaneTakeoff className="w-3.5 h-3.5 opacity-60" />
-                            <span className="text-[10px] font-semibold uppercase tracking-tight">
-                              HAVADA
-                            </span>
-                          </div>
-                        ) : (
-                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-green-50/50 text-green-600/80 border border-green-100/50 w-fit">
-                            <PlaneLanding className="w-3.5 h-3.5 opacity-60" />
-                            <span className="text-[10px] font-semibold uppercase tracking-tight">
-                              YERDE
-                            </span>
-                          </div>
-                        )}
-                      </TableCell>
-                      <TableCell>{flight.flightPurpose}</TableCell>
-                      <TableCell>
-                        {flight.flightType === "IFR" ? (
-                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-indigo-50/50 text-indigo-500/80 border border-indigo-100/50 w-fit uppercase font-semibold text-[10px] tracking-wider">
-                            IFR
-                          </div>
-                        ) : (
-                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-50/50 text-amber-500/80 border border-amber-100/50 w-fit uppercase font-semibold text-[10px] tracking-wider">
-                            VFR
-                          </div>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <UpdateFlight
-                          id={flight.id}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+const AIRPORTS = [
+  { icao: "LTFM", name: "İstanbul Havalimanı", search: "Istanbul" },
+  { icao: "LTFJ", name: "Sabiha Gökçen", search: "Istanbul" },
+  { icao: "LTAC", name: "Ankara Esenboğa", search: "Ankara" },
+  { icao: "LTBJ", name: "İzmir Adnan Menderes", search: "Izmir" },
+  { icao: "LTAI", name: "Antalya Havalimanı", search: "Antalya" },
+  { icao: "LTFE", name: "Muğla Milas-Bodrum", search: "Bodrum" },
+  { icao: "LTBS", name: "Muğla Dalaman", search: "Dalaman" },
+  { icao: "LTCG", name: "Trabzon Havalimanı", search: "Trabzon" },
+  { icao: "LTAF", name: "Adana Şakirpaşa", search: "Adana" },
+];
+
+const Form93Component = () => {
+  const [selectedIcao, setSelectedIcao] = useState(AIRPORTS[0].icao);
+    
+  const currentAirport = AIRPORTS.find(a => a.icao === selectedIcao) || AIRPORTS[0];
+  const searchCity = currentAirport.search;
+
+  const { data, isError, isLoading, refetch, isFetching } = useQuery({
+    queryKey: ["getWeatherInfo", searchCity],
+    queryFn: () => weatherService.getByCity(searchCity),
+    enabled: !!searchCity,
+    staleTime: 1000 * 60 * 10,
+  });
+
+  const formatTime = (timestamp: number, symbol: "+" | "-") => {
+    if (!timestamp) return "--:--";
+    const offsetInSeconds = 30 * 60;
+    let finalTimestamp = timestamp;
+
+    if (symbol === "+") {
+      finalTimestamp += offsetInSeconds;
+    } else {
+      finalTimestamp -= offsetInSeconds;
+    }
+
+    return new Date(finalTimestamp * 1000).toLocaleTimeString("tr-TR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  return (
+    <div className="p-4 sm:p-8 space-y-8 animate-in fade-in duration-500">
+      <WeatherHeader
+        currentAirport={currentAirport}
+        airports={AIRPORTS}
+        selectedIcao={selectedIcao}
+        onIcaoChange={setSelectedIcao}
+        onRefresh={refetch}
+        isFetching={isFetching}
+      />
+
+      {isLoading ? (
+        <div className="flex items-center justify-center min-h-[400px]">
+          <LoadingPage />
+        </div>
+      ) : isError ? (
+        <Card className="p-12 text-center border-dashed border-2">
+          <div className="flex flex-col items-center gap-3">
+            <div className="p-4 bg-red-50 dark:bg-red-950/20 rounded-full">
+              <RefreshCw className="w-8 h-8 text-red-500" />
             </div>
+            <h3 className="text-lg font-semibold">Veri Alınamadı</h3>
+            <p className="text-muted-foreground max-w-xs mx-auto">
+              Hava durumu bilgileri şu an yüklenemiyor. Lütfen bağlantınızı kontrol edin.
+            </p>
+            <Button onClick={() => refetch()} variant="secondary" className="mt-2">
+              Tekrar Dene
+            </Button>
           </div>
-        </>
-      </div>
-    </>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <MainWeatherCard data={data} />
+          <WeatherDetailsSidebar data={data} formatTime={formatTime} />
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useContext, useState } from "react";
-import { dataFlight } from "@/components/aviationComponent/forms/93/data";
+import { dataFlight } from "@/components/aviationComponent/forms/92/data";
 type FlightData = {
   id: number;
   callSign: string;
