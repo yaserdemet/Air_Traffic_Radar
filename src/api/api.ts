@@ -26,7 +26,6 @@ export const skyApi = {
    */
   getStateByIcao: async (icao24: string): Promise<any[][] | null> => {
     const res = await api.get("/states/all", { params: { icao24 } });
-    console.log(res?.data)
     return res.data.states;
   },
 
@@ -42,11 +41,11 @@ export const skyApi = {
    * Fetches the trajectory for a specific aircraft.
    */
   getLiveTrack: async (icao24: string): Promise<any> => {
-    const res = await api.get("/tracks/all", { 
-      params: { 
-        icao24, 
-        time: 0 
-      } 
+    const res = await api.get("/tracks/all", {
+      params: {
+        icao24,
+        time: 0,
+      },
     });
     return res.data;
   },
@@ -54,7 +53,10 @@ export const skyApi = {
 
 import airportApi from "@/lib/axiosAirport";
 
-export const getAirportByCode = async (codeType: "iata" | "icao" | "local", code: string) => {
+export const getAirportByCode = async (
+  codeType: "iata" | "icao" | "local",
+  code: string,
+) => {
   try {
     const res = await airportApi.get(`/airports/${codeType}/${code}`);
     return res.data;
@@ -63,3 +65,34 @@ export const getAirportByCode = async (codeType: "iata" | "icao" | "local", code
     throw error;
   }
 };
+
+export const getRunwayInfo = async (
+  codeType: "iata" | "icao" | "local" = "icao",
+  code: string,
+) => {
+  try {
+    const response = await airportApi.get(
+      `/airports/${codeType}/${code}/runways`,
+    );
+    return response?.data;
+  } catch (error) {
+    console.error("Error fetching airport runways:", error);
+    throw error;
+  }
+};
+
+export const getFlightofAerodome = async (
+  codeType: "iata" | "icao" | "local" = "icao",
+  code: string,
+) => {
+  try {
+    const response = await airportApi.get(
+      `/flights/airports/${codeType}/${code}`,
+    );
+    return response?.data;
+  } catch (error) {
+    console.error("Error fetching airport runways:", error);
+    throw error;
+  }
+};
+

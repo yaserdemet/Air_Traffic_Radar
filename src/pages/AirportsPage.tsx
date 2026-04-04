@@ -43,7 +43,6 @@ export default function AirportsPage() {
     queryFn: () =>
       getAirportByCode(searchTriggerCode.type, searchTriggerCode.val),
   });
-  console.log(data);
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!code) return;
@@ -173,13 +172,13 @@ export default function AirportsPage() {
                   <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
                     <p className="text-xs text-slate-500 mb-1">Enlem (Lat)</p>
                     <p className="font-medium text-slate-900">
-                      {data.location?.lat?.toFixed(4) || "N/A"}
+                      {data?.location?.lat?.toFixed(4) || "N/A"}
                     </p>
                   </div>
                   <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
                     <p className="text-xs text-slate-500 mb-1">Boylam (Lon)</p>
                     <p className="font-medium text-slate-900">
-                      {data.location?.lon?.toFixed(4) || "N/A"}
+                      {data?.location?.lon?.toFixed(4) || "N/A"}
                     </p>
                   </div>
                 </div>
@@ -235,7 +234,10 @@ export default function AirportsPage() {
               </div>
             </CardContent>
           </Card>
-          <AerodomeMap lat={data?.location?.lat} lon={data?.location?.lon} />
+          {data?.location?.lat !== undefined &&
+            data?.location?.lon !== undefined && (
+              <AerodomeMap lat={data.location.lat} lon={data.location.lon} />
+            )}
         </div>
       )}
     </div>
