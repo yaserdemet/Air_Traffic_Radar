@@ -60,7 +60,7 @@ export default function SearchAirportPage() {
       // ICAO kod validasyonu - 4 karakter ve alfanümerik
       if (!/^[A-Z0-9]{4}$/.test(fromCode) || !/^[A-Z0-9]{4}$/.test(toCode)) {
         throw new Error(
-          "Geçersiz havaalanı kodu. ICAO kodları 4 karakter olmalıdır."
+          "Geçersiz havaalanı kodu. ICAO kodları 4 karakter olmalıdır.",
         );
       }
 
@@ -72,8 +72,7 @@ export default function SearchAirportPage() {
         throw err;
       }
     },
-    enabled:
-      formValues?.from?.length === 4 && formValues?.to?.length === 4,
+    enabled: formValues?.from?.length === 4 && formValues?.to?.length === 4,
     staleTime: 1000 * 60 * 5,
     retry: 1,
   });
@@ -83,10 +82,7 @@ export default function SearchAirportPage() {
   const locationTo = data?.to?.location;
 
   // Koordinatların valid olup olmadığını kontrol et
-  const isValidCoordinate = (
-    lat: unknown,
-    lon: unknown
-  ): boolean => {
+  const isValidCoordinate = (lat: unknown, lon: unknown): boolean => {
     return (
       typeof lat === "number" &&
       typeof lon === "number" &&
@@ -185,7 +181,10 @@ export default function SearchAirportPage() {
                   maxLength={4}
                 />
               </div>
-              <Button type="submit" disabled={isLoading || Object.keys(errors).length > 0}>
+              <Button
+                type="submit"
+                disabled={isLoading || Object.keys(errors).length > 0}
+              >
                 {isLoading ? "Aranıyor..." : "ARA"}
               </Button>
             </form>
@@ -206,10 +205,10 @@ export default function SearchAirportPage() {
                   {error instanceof Error
                     ? error.message
                     : typeof error === "object" &&
-                      error !== null &&
-                      "message" in error
-                    ? ((error as any).message || "Bilinmeyen bir hata oluştu")
-                    : "Havaalanları yüklenirken bir hata oluştu"}
+                        error !== null &&
+                        "message" in error
+                      ? (error as any).message || "Bilinmeyen bir hata oluştu"
+                      : "Havaalanları yüklenirken bir hata oluştu"}
                 </p>
               </div>
             )}
@@ -251,7 +250,9 @@ export default function SearchAirportPage() {
               <div className="grid grid-cols-2 gap-4">
                 <Card className="p-4">
                   <p className="text-sm text-gray-500">Kalkış Havaalanı</p>
-                  <p className="font-bold">{data?.from?.name || "Bilinmiyor"}</p>
+                  <p className="font-bold">
+                    {data?.from?.name || "Bilinmiyor"}
+                  </p>
                   <p className="text-xs text-gray-400 mt-2">
                     Enlem: {locationFrom?.lat?.toFixed(4)}
                   </p>
@@ -273,17 +274,15 @@ export default function SearchAirportPage() {
             )}
 
             {/* No Results State */}
-            {!isLoading &&
-              !isError &&
-              data &&
-              !hasValidLocations && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-yellow-700">
-                  <p className="font-semibold">⚠️ Koordinat bilgisi alınamadı</p>
-                  <p className="text-sm">
-                    Girdiğiniz havaalanlarının konum bilgileri bulunamadı. Lütfen ICAO kodlarını kontrol edin.
-                  </p>
-                </div>
-              )}
+            {!isLoading && !isError && data && !hasValidLocations && (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-yellow-700">
+                <p className="font-semibold">⚠️ Koordinat bilgisi alınamadı</p>
+                <p className="text-sm">
+                  Girdiğiniz havaalanlarının konum bilgileri bulunamadı. Lütfen
+                  ICAO kodlarını kontrol edin.
+                </p>
+              </div>
+            )}
 
             {/* Initial State */}
             {!isLoading && !data && (
