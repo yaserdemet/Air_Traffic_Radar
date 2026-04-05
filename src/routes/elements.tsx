@@ -30,3 +30,6 @@ export const AirportsPage = Loadable(
 export const SearchAirportPage = Loadable(
   lazy(() => import("../pages/SearchAirportPage")),
 );
+export const FrequenciesPage = Loadable(
+  lazy(() => import("../pages/FrequenciesPage")),
+);
