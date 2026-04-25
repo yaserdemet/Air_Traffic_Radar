@@ -7,7 +7,6 @@ import {
   Hash,
   Loader2,
   AlertCircle,
-  Phone,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -27,7 +26,6 @@ import {
 } from "@/components/ui/select";
 import { getAirportByCode, getFlightofAerodome } from "@/api/api";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
 import AerodomeMap from "@/components/aviationComponent/aerodomeInfo.tsx/AerodomeMap";
 import FlightsOfAerodome from "@/components/aviationComponent/aerodomeInfo.tsx/FlightsOfAerodome";
 

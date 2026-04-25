@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import FlightTable from "./FlightTable";
 import type { FlightsOfAerodomeProps } from "./flights.types";
 

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { PlaneLanding, PlaneTakeoff, Info } from "lucide-react";
 import type { Flight } from "./flights.types";
 import {
@@ -9,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 
 interface FlightTableProps {
   flights: Flight[];

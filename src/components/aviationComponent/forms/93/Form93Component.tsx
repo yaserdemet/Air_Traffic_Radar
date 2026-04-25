@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { WeatherHeader } from "./sub-components/WeatherHeader";
-import { MainWeatherCard } from "./sub-components/MainWeatherCard";
 import { WeatherDetailsSidebar } from "./sub-components/WeatherDetailsSidebar";
 
 const AIRPORTS = [

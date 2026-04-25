@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { FileText, Maximize, Plus } from "lucide-react";
+import { FileText, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { useForm } from "react-hook-form";
 import { Badge } from "@/components/ui/badge";
 import {FilterForm} from "./FilterForm"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 const Form91Component = () => {
   // Placeholder data for Form 91
   const [events, setEvents] = useState([
