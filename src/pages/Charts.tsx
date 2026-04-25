@@ -1,4 +1,4 @@
-import { TrendingUp, Plane, PlaneLanding } from "lucide-react";
+import { Plane } from "lucide-react";
 import { Pie, PieChart, Cell } from "recharts";
 
 import {

@@ -1,4 +1,3 @@
-import React from 'react'
 
 const useFullScreen = () => {
     const openFullscreen = (element?: HTMLElement | null) => {

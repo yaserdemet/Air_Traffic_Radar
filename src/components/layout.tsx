@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import type { ReactNode } from "react"
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   Breadcrumb,

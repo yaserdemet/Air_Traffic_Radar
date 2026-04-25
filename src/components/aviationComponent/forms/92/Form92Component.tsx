@@ -17,7 +17,6 @@ const Form93Component = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(2);
-  const totalPages = Math.ceil(flights.length / rowsPerPage);
   const paginatedFlights = flights.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage

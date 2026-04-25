@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useMap } from "react-leaflet";
 import { data } from "./data";
 import { mapUrlForBlackEditon } from "@/api/mapUrl";
